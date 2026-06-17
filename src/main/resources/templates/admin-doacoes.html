@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doacoes - Conecta Geracao Viva</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+    <style>
+        body { background: #f6f8fb; }
+        .topbar { background: #194d33; color: white; }
+    </style>
+</head>
+<body>
+<nav class="topbar py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <div class="small text-white-50">Administrador</div>
+            <h1 class="h4 mb-0">Doacoes recebidas</h1>
+        </div>
+        <a class="btn btn-outline-light btn-sm" th:href="@{/admin}">Voltar ao painel</a>
+    </div>
+</nav>
+
+<main class="container py-4">
+    <section class="bg-white rounded shadow-sm p-4">
+        <h2 class="h5 mb-3">Registros de doacao</h2>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Doador</th>
+                    <th>Observacao</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(doacoes)}">
+                    <td colspan="5" class="text-center text-muted py-4">Nenhuma doacao registrada ainda.</td>
+                </tr>
+                <tr th:each="doacao : ${doacoes}">
+                    <td th:text="${doacao.data}">Data</td>
+                    <td th:text="${doacao.tipo}">Tipo</td>
+                    <td th:text="${doacao.valor != null ? 'R$ ' + doacao.valor : '-'}">Valor</td>
+                    <td th:text="${doacao.doador != null ? doacao.doador.nome : 'Visitante'}">Doador</td>
+                    <td th:text="${doacao.observacao ?: '-'}">Observacao</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

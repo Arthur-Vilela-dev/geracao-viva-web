@@ -1,0 +1,20 @@
+# Build do Maven
+target/
+
+# Arquivos locais com senha/configuracao da maquina
+src/main/resources/application-local.properties
+.env
+
+# VS Code e sistema operacional
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Arquivos compactados/temporarios
+*.zip
+*.tmp

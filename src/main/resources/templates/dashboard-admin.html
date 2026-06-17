@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Conecta Geracao Viva</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+    <style>
+        body { background: #f6f8fb; }
+        .topbar { background: #194d33; color: white; }
+        .metric { border-left: 5px solid #198754; }
+        .action-card { transition: transform .15s ease, box-shadow .15s ease; }
+        .action-card:hover { transform: translateY(-2px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.08); }
+        .icon-box { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 8px; font-weight: 700; }
+        .table-actions form { display: inline; }
+    </style>
+</head>
+<body>
+<nav class="topbar py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <div class="small text-white-50">Conecta Geracao Viva</div>
+            <h1 class="h4 mb-0">Painel do administrador</h1>
+        </div>
+        <a class="btn btn-outline-light btn-sm" th:href="@{/logout}">Sair</a>
+    </div>
+</nav>
+
+<main class="container py-4">
+    <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
+    <div class="alert alert-warning d-flex justify-content-between align-items-center"
+         th:if="${voluntarioReprovadoId}">
+        <div>
+            <strong>Exclusao programada.</strong>
+            O voluntario reprovado sera removido da gestao em
+            <span id="contador-exclusao">30</span>
+            segundos.
+        </div>
+        <form id="form-excluir-reprovado"
+              th:action="@{/admin/voluntarios/{id}/excluir(id=${voluntarioReprovadoId})}"
+              method="post">
+            <button class="btn btn-sm btn-outline-danger" type="submit">Excluir agora</button>
+        </form>
+    </div>
+
+    <section class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="bg-white p-3 rounded metric shadow-sm">
+                <div class="text-muted small">Beneficiarios</div>
+                <div class="fs-3 fw-bold" th:text="${totalBeneficiarios}">0</div>
+                <div class="small text-success">criancas e adolescentes</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bg-white p-3 rounded metric shadow-sm">
+                <div class="text-muted small">Voluntarios pendentes</div>
+                <div class="fs-3 fw-bold" th:text="${voluntariosPendentes}">0</div>
+                <div class="small text-success">aguardando aprovacao</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bg-white p-3 rounded metric shadow-sm">
+                <div class="text-muted small">Voluntarios ativos</div>
+                <div class="fs-3 fw-bold" th:text="${voluntariosAtivos}">0</div>
+                <div class="small text-success">aptos para atuar</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bg-white p-3 rounded metric shadow-sm">
+                <div class="text-muted small">Total voluntarios</div>
+                <div class="fs-3 fw-bold" th:text="${totalVoluntarios}">0</div>
+                <div class="small text-success">cadastros recebidos</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row g-3">
+        <div class="col-lg-8">
+            <div class="bg-white rounded shadow-sm p-4">
+                <h2 class="h5 mb-3">Acoes administrativas</h2>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a class="text-decoration-none text-dark" th:href="@{/admin/beneficiarios}">
+                        <div class="border rounded p-3 action-card h-100">
+                            <div class="d-flex gap-3">
+                                <div class="icon-box bg-success-subtle text-success">CA</div>
+                                <div>
+                                    <h3 class="h6">Criancas e adolescentes</h3>
+                                    <p class="small text-muted mb-0">Gerencie beneficiarios, responsaveis e matriculas.</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="border rounded p-3 action-card h-100">
+                            <div class="d-flex gap-3">
+                                <div class="icon-box bg-primary-subtle text-primary">VO</div>
+                                <div>
+                                    <h3 class="h6">Voluntarios</h3>
+                                    <p class="small text-muted mb-0">Aprove, reprove, ative ou inative voluntarios.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="text-decoration-none text-dark" th:href="@{/admin/oficinas}">
+                        <div class="border rounded p-3 action-card h-100">
+                            <div class="d-flex gap-3">
+                                <div class="icon-box bg-warning-subtle text-warning">OF</div>
+                                <div>
+                                    <h3 class="h6">Oficinas</h3>
+                                    <p class="small text-muted mb-0">Cadastre horarios, instrutores e numero de vagas.</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="text-decoration-none text-dark" th:href="@{/admin/eventos}">
+                        <div class="border rounded p-3 action-card h-100">
+                            <div class="d-flex gap-3">
+                                <div class="icon-box bg-info-subtle text-info">EV</div>
+                                <div>
+                                    <h3 class="h6">Eventos</h3>
+                                    <p class="small text-muted mb-0">Organize eventos, datas, horarios e vagas.</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="text-decoration-none text-dark" th:href="@{/admin/doacoes}">
+                        <div class="border rounded p-3 action-card h-100">
+                            <div class="d-flex gap-3">
+                                <div class="icon-box bg-danger-subtle text-danger">DO</div>
+                                <div>
+                                    <h3 class="h6">Doacoes</h3>
+                                    <p class="small text-muted mb-0">Visualize as doacoes registradas pela comunidade.</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="text-decoration-none text-dark" th:href="@{/admin/relatorios}">
+                        <div class="border rounded p-3 action-card h-100">
+                            <div class="d-flex gap-3">
+                                <div class="icon-box bg-secondary-subtle text-secondary">RE</div>
+                                <div>
+                                    <h3 class="h6">Relatorios</h3>
+                                    <p class="small text-muted mb-0">Veja indicadores gerais da ONG.</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="bg-white rounded shadow-sm p-4">
+                <h2 class="h5 mb-3">Prioridades</h2>
+                <ol class="small mb-0">
+                    <li>Conferir novos pedidos de voluntariado.</li>
+                    <li>Atualizar vagas das oficinas.</li>
+                    <li>Revisar proximos eventos.</li>
+                    <li>Acompanhar doacoes registradas.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white rounded shadow-sm p-4 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="h5 mb-1">Gestao de voluntarios</h2>
+                <p class="small text-muted mb-0">Aprove, reprove, ative ou inative voluntarios cadastrados.</p>
+            </div>
+            <span class="badge text-bg-success">RN-001</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Habilidades</th>
+                    <th>Status</th>
+                    <th class="text-end">Acoes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(voluntarios)}">
+                    <td colspan="6" class="text-center text-muted py-4">Nenhum voluntario cadastrado ainda.</td>
+                </tr>
+                <tr th:each="voluntario : ${voluntarios}">
+                    <td th:text="${voluntario.usuario.nome}">Nome</td>
+                    <td th:text="${voluntario.usuario.email}">email@email.com</td>
+                    <td th:text="${voluntario.telefone}">(00) 00000-0000</td>
+                    <td class="small text-muted" th:text="${voluntario.habilidades ?: 'Nao informado'}">Habilidades</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${voluntario.status.name() == 'ATIVO'} ? ' text-bg-success' :
+                                      (${voluntario.status.name() == 'PENDENTE'} ? ' text-bg-warning' :
+                                      (${voluntario.status.name() == 'REPROVADO'} ? ' text-bg-danger' : ' text-bg-secondary'))"
+                              th:text="${voluntario.status}">
+                            PENDENTE
+                        </span>
+                    </td>
+                    <td class="text-end table-actions">
+                        <form th:action="@{/admin/voluntarios/{id}/status(id=${voluntario.id})}" method="post">
+                            <input type="hidden" name="status" value="ATIVO">
+                            <button class="btn btn-sm btn-success" type="submit">Aprovar</button>
+                        </form>
+                        <form th:action="@{/admin/voluntarios/{id}/status(id=${voluntario.id})}" method="post">
+                            <input type="hidden" name="status" value="REPROVADO">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Reprovar</button>
+                        </form>
+                        <form th:action="@{/admin/voluntarios/{id}/status(id=${voluntario.id})}" method="post">
+                            <input type="hidden" name="status" value="INATIVO">
+                            <button class="btn btn-sm btn-outline-secondary" type="submit">Inativar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<script th:if="${voluntarioReprovadoId}">
+    let segundosRestantes = 30;
+    const contador = document.getElementById('contador-exclusao');
+    const formExclusao = document.getElementById('form-excluir-reprovado');
+
+    const intervalo = setInterval(() => {
+        segundosRestantes -= 1;
+        contador.textContent = segundosRestantes;
+
+        if (segundosRestantes <= 0) {
+            clearInterval(intervalo);
+            formExclusao.submit();
+        }
+    }, 1000);
+</script>
+</body>
+</html>
