@@ -34,16 +34,16 @@ O script do banco está na pasta `docs`:
 
 ```text
 src/main/java/br/org/conectageracaoviva
-|-- config       -> classes de configuracao e dados iniciais
+|-- config       -> classes de configuração e dados iniciais
 |-- model        -> entidades JPA, que viram tabelas no banco
 |-- repository   -> acesso ao banco de dados
-|-- security     -> configuracao de login, senha e perfis
-|-- service      -> regras de negocio
+|-- security     -> configuração de login, senha e perfis
+|-- service      -> regras de negócio
 `-- GeracaoVivaApplication.java -> classe que inicia o sistema
 
 src/main/resources
-|-- templates              -> paginas HTML Thymeleaf
-`-- application.properties -> configuracao do projeto e do MySQL
+|-- templates              -> páginas HTML Thymeleaf
+`-- application.properties -> configuração do projeto e do MySQL
 ```
 
 ## Como executar
