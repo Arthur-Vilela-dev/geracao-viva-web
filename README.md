@@ -1,8 +1,15 @@
-# Conecta Geracao Viva
+# Conecta Geração Viva
 
-Sistema web em Java com Spring Boot para a ONG Conecta Geracao Viva.
+Sistema web em Java com Spring Boot para a ONG Conecta Geração Viva.
 
-Este projeto esta sendo construido por partes, com explicacoes simples para quem esta aprendendo Java, Spring Boot, MySQL, Thymeleaf e Spring Security.
+Este projeto foi desenvolvido para digitalizar processos internos da ONG e aproximar a comunidade das atividades oferecidas.
+
+## Requisitos
+
+- Java 17 ou superior
+- Maven
+- MySQL
+- VS Code ou outra IDE Java
 
 ## Tecnologias usadas
 
@@ -17,16 +24,11 @@ Este projeto esta sendo construido por partes, com explicacoes simples para quem
 - API REST
 - Arquitetura MVC
 
-## Como estudar este projeto
+## Banco de dados
 
-As explicacoes estao na pasta `docs`.
+O script do banco está na pasta `docs`:
 
-Comece por aqui:
-
-1. [Parte 1 - Preparacao, estrutura e MySQL](docs/parte-1-preparacao.md)
-2. [Parte 2 - DER e entidades JPA](docs/parte-2-der-entidades.md)
-3. [Parte 3 - API REST](docs/parte-3-api-rest.md)
-4. [Parte 4 - MVC, Services, Controllers e Security](docs/parte-4-mvc-security-telas.md)
+- [banco-de-dados.sql](docs/banco-de-dados.sql)
 
 ## Estrutura principal
 
@@ -52,10 +54,16 @@ Antes de rodar, crie o banco no MySQL:
 CREATE DATABASE geracao_viva CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-Depois ajuste seu usuario e senha em:
+Configure sua senha local em:
 
 ```text
-src/main/resources/application.properties
+src/main/resources/application-local.properties
+```
+
+Exemplo:
+
+```properties
+spring.datasource.password=sua_senha_mysql
 ```
 
 Execute com:
