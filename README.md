@@ -48,7 +48,7 @@ src/main/resources
 
 ## Como executar
 
-Antes de rodar, crie o banco no MySQL:
+Crie o banco no MySQL antes de executar o projeto:
 
 ```sql
 CREATE DATABASE geracao_viva CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
